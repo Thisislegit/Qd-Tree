@@ -12,13 +12,17 @@ def sample(config):
 
     # if random from [0,1] interval is greater than 0.01 the row will be skipped
     # ref stack overflow
+    # TODO: hack for tpc-h
+    columns = 'l_orderkey|l_partkey|l_suppkey|l_linenumber|l_quantity|l_extendedprice|l_discount|l_tax|l_returnflag|l_linestatus|l_shipdate|l_commitdate|l_receiptdate|l_shipinstruct|l_shipmode|l_comment'.split('|') 
     sampled_records = pd.read_csv(config.get_config("record_file_path"),
                                   encoding="ISO-8859-1",
                                   sep='|',
                                   names=columns,
-                                  index_col=False,
+                                #   index_col=False,
                                   skiprows=lambda i: i > 0 and random.random() > p,
-                                  parse_dates=config.get_config("date_columns"))
+                                #   parse_dates=config.get_config("date_columns")
+                                  parse_dates=['l_shipdate', 'l_commitdate', 'l_receiptdate']
+                                  )
 
     return sampled_records
 

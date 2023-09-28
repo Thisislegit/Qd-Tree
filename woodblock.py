@@ -11,9 +11,6 @@ from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.tune import grid_search
 from ray.tune.logger import pretty_print
 
-import sys
-sys.path.append("/data1/chenxu/projects/Qd-Tree/")
-
 from qdTrees.config.appconfig import AppConfig
 from qdTrees.queryparsing.treeutils import TreeUtils
 from qdTrees.woodblock.custom_gym.envs.custom_env_dir import WoodblockCallbacks
@@ -38,6 +35,7 @@ parser.add_argument(
 parser.add_argument(
     "--as-test",
     action="store_true",
+    default=True,
     help="Whether this script should be run as a test: --stop-reward must "
          "be achieved within --stop-timesteps AND --stop-iters.")
 parser.add_argument(
@@ -64,6 +62,7 @@ parser.add_argument(
 parser.add_argument(
     "--local-mode",
     action="store_true",
+    default=True,
     help="Init Ray in local mode for easier debugging.")
 
 
@@ -93,7 +92,8 @@ if __name__ == "__main__":
     config = {
         "env": WoodBlockEnvMultiAgent,  # or "corridor" if registered above
         "env_config": {
-            "custom_config": AppConfig('../../../../config/qdTreeConfig.json'),
+            # "custom_config": AppConfig('../../../../config/qdTreeConfig.json'),
+            "custom_config": AppConfig('./qdTrees/config/qdTreeConfig.json'),
         },
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
         "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),

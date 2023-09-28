@@ -224,6 +224,7 @@ class TreeUtils:
             cond = np.greater(df[col_name], val)
             return df[cond], df[~cond]
         elif op == "<=":
+            # print
             cond = np.less_equal(df[col_name], val)
             return df[cond], df[~cond]
         elif op == "<":

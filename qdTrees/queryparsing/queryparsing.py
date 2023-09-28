@@ -88,7 +88,9 @@ def extract_cuts(config, statement: sqlparse.sql.Statement, res):
 def get_token_cuts(config, t, res):
     if type(t) != sqlparse.sql.Token:
         if type(t) == sqlparse.sql.Comparison:
-            res.append(get_cut_from_comparison(config, t))
+            cut = get_cut_from_comparison(config, t)
+            if cut.get_node_type() != "EXTENDED_CUT":
+                res.append(cut)
             return
         else:
             for t1 in t.tokens:
@@ -99,8 +101,9 @@ def get_token_cuts(config, t, res):
 def process_query_file(config, q_path):
     final_result = []
     with open(q_path, 'r') as query_file:
+        query_file = query_file.read()
         split_file = sqlparse.split(query_file)
-        print(query_file)
+        # print(query_file)
         for s in split_file:
             stmts = sqlparse.parse(s)
             for stmt in stmts:

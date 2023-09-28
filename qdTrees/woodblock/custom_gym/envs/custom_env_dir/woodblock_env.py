@@ -4,7 +4,8 @@ import jsonpickle
 import numpy as np
 from gym import spaces
 from gym.spaces import Dict, Box, MultiBinary
-from ray.rllib import MultiAgentEnv
+from ray.rllib import MultiAgentEnv, BaseEnv
+import gym
 from ray.rllib.env.env_context import EnvContext
 from ray.rllib.utils.framework import try_import_tf, try_import_torch
 
